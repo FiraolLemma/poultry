@@ -153,7 +153,7 @@ DATABASES = {
         'NAME': os.getenv('PGDATABASE'),
         'USER': os.getenv('PGUSER'),
         'PASSWORD': os.getenv('PGPASSWORD'),
-        'HOST': os.getenv('PGHOST'),  # Will use public URL
+        'HOST': os.getenv('PGHOST'), 
         'PORT': os.getenv('PGPORT'),
     }
 }
