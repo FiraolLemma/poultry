@@ -1,3 +1,4 @@
-release: python manage.py migrate
-web: daphne --verbosity 0 --proxy-headers --bind 0.0.0.0 --port $PORT project.asgi:application
-worker: python manage.py runworker --threads 4
+
+
+web: python manage.py migrate && daphne -b 0.0.0.0 -p $PORT project.asgi:applicationAdd commentMore actions
+worker: python manage.py runworker websocket
