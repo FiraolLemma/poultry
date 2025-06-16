@@ -1,19 +1,33 @@
-# project/settings.py
 import os
 from pathlib import Path
 from django.utils.translation import gettext_lazy as _
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
-
 import dj_database_url
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'your-development-secret-key' 
-DEBUG = True  
-ALLOWED_HOSTS = ['localpoultry.onrender.com', 'localhost', '127.0.0.1']
+# Use environment variables for sensitive data
+SECRET_KEY = os.environ.get('SECRET_KEY', 'your-dev-secret-key')
+DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
+
+# Redis URL (for Railway, use from env or fallback)
+REDIS_URL = os.environ.get("REDIS_URL", "redis://localhost:6379")
+
+CSRF_TRUSTED_ORIGINS = os.environ.get("CSRF_TRUSTED_ORIGINS", "http://localhost:8000").split(',')
+
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+# Languages
 LANGUAGES = [
     ('en', _('English')),
     ('am', _('Amharic')),
@@ -24,19 +38,7 @@ LANGUAGE_COOKIE_NAME = 'django_language'
 LANGUAGE_COOKIE_HTTPONLY = False
 LANGUAGE_COOKIE_SAMESITE = 'Lax'
 
-REDIS_URL = 'redis://localhost:6379'
-
-CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'http://127.0.0.1:8000']
-SESSION_COOKIE_SECURE = False 
-CSRF_COOKIE_SECURE = False  
-SECURE_PROXY_SSL_HEADER = None 
-
-
-# Security settings for production
-#SESSION_COOKIE_SECURE = True
-#CSRF_COOKIE_SECURE = True
-#SECURE_SSL_REDIRECT = True
-
+# Installed apps
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -91,6 +93,7 @@ LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'home'
 
+# Static files
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
@@ -99,20 +102,24 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'conversation/static'),
     os.path.join(BASE_DIR, 'items/static'),
     os.path.join(BASE_DIR, 'users/static'),
-] 
+]
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+# Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
+# Timezone and language
 LANGUAGE_CODE = 'en'
 TIME_ZONE = 'Africa/Addis_Ababa'
 USE_I18N = True
 USE_TZ = True
 
-CORS_ALLOW_ALL_ORIGINS = True 
+# CORS
+CORS_ALLOW_ALL_ORIGINS = True
 
+# Templates
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -131,25 +138,20 @@ TEMPLATES = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-WHITENOISE_AUTOREFRESH = True
-
+# Cloudinary
 cloudinary.config(
-    cloud_name="doixo5oiw",
-    api_key="435759228322341",
-    api_secret="H3_ZVEXWGcyuE28IfKWUYsTo5sY",
+    cloud_name=os.environ.get("CLOUDINARY_CLOUD_NAME", "doixo5oiw"),
+    api_key=os.environ.get("CLOUDINARY_API_KEY", "435759228322341"),
+    api_secret=os.environ.get("CLOUDINARY_API_SECRET", "H3_ZVEXWGcyuE28IfKWUYsTo5sY"),
     secure=True
 )
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
 
-# Render PostgreSQL configuration (will override above when DATABASE_URL exists)
-if 'DATABASE_URL' in os.environ:
-    DATABASES['default'] = dj_database_url.config(
+# Database
+DATABASES = {
+    'default': dj_database_url.config(
+        default=f'sqlite:///{BASE_DIR / "db.sqlite3"}',
         conn_max_age=600,
         ssl_require=True,
-        conn_health_checks=True,
+        conn_health_checks=True
     )
+}

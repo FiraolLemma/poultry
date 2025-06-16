@@ -1,11 +1,9 @@
-# render.yaml
-
 services:
   - type: web
     name: poultry-website
     runtime: python
     buildCommand: "./build.sh"
-    startCommand: "gunicorn project.wsgi:application --bind 0.0.0.0:$PORT"
+    startCommand: "daphne -b 0.0.0.0 -p $PORT project.asgi:application"
     envVars:
       - key: DATABASE_URL
         fromDatabase:
@@ -13,8 +11,6 @@ services:
           property: connectionString
       - key: SECRET_KEY
         generateValue: true
-      - key: WEB_CONCURRENCY
-        value: 4
       - key: CLOUDINARY_CLOUD_NAME
         value: doixo5oiw
       - key: CLOUDINARY_API_KEY
@@ -23,7 +19,12 @@ services:
         value: H3_ZVEXWGcyuE28IfKWUYsTo5sY
       - key: PYTHON_VERSION
         value: 3.9.13
-
+      - key: DEBUG
+        value: "False"
+      - key: REDIS_URL
+        value: redis://your_redis_url_here  # set this manually on Railway
+      - key: ALLOWED_HOSTS
+        value: "yourdomain.com,localhost,127.0.0.1"
 databases:
   - name: poultry_db
     plan: free
