@@ -14,9 +14,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Use environment variables for sensitive data
 SECRET_KEY = os.environ.get('SECRET_KEY', 'your-dev-secret-key')
-DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
+DEBUG = True
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
+ALLOWED_HOSTS = ['*']
 
 # Redis URL (for Railway, use from env or fallback)
 REDIS_URL = os.environ.get("REDIS_URL", "redis://localhost:6379")
@@ -148,10 +148,5 @@ cloudinary.config(
 
 # Database
 DATABASES = {
-    'default': dj_database_url.config(
-        default=f'sqlite:///{BASE_DIR / "db.sqlite3"}',
-        conn_max_age=600,
-        ssl_require=True,
-        conn_health_checks=True
-    )
+    'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
 }
