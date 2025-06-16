@@ -7,14 +7,16 @@ from .forms import MessageForm
 from .models import Message
 
 def base(request):
-    # Get counts for stats
     User = get_user_model()
-    users_count = User.objects.count()
-    active_users_count = User.objects.filter(is_active=True).count()
+    try:
+        users_count = User.objects.count()
+        active_users_count = User.objects.filter(is_active=True).count()
+    except Exception as e:
+        users_count = 0
+        active_users_count = 0
     items_count = Item.objects.count() 
     conversations_count = Conversation.objects.count()
 
-    # Handle message form submission
     if request.method == 'POST':
         form = MessageForm(request.POST)
         if form.is_valid():
@@ -27,7 +29,6 @@ def base(request):
     else:
         form = MessageForm()
 
-    # Pass all data to the template
     return render(request, 'base/index.html', {
         'users_count': users_count,
         'active_users_count': active_users_count,
