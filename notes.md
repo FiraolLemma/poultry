@@ -1936,3 +1936,28 @@ Media Files: For production, you should use Cloudinary for media storage since R
 Scaling: The free tier has limitations. Consider upgrading if you expect significant traffic.
 
 Would you like me to elaborate on any specific part of this deployment process?
+
+
+
+class CustomUser(AbstractBaseUser, PermissionsMixin):
+    username = models.CharField(max_length=30, unique=True)
+    phone_number = models.CharField(
+        max_length=17,
+        unique=True,
+        validators=[
+            RegexValidator(
+                regex=r'^\+?1?\d{9,15}$',
+                message="Phone number must be in format: '+999999999'"
+            )
+        ]
+    )
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    
+    USERNAME_FIELD = 'phone_number'
+    REQUIRED_FIELDS = ['username'] 
+
+    objects = CustomUserManager()
+
+    def __str__(self):
+        return f"{self.username} ({self.phone_number})"
