@@ -1961,3 +1961,12 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return f"{self.username} ({self.phone_number})"
+
+
+
+        
+PGDATABASE=railway
+PGUSER=postgres
+PGPASSWORD=yDwzbzUxvKCQCcQbdEJKfazaeKrWnUMx
+PGHOST=postgres.railway.internal
+PGPORT=5432
