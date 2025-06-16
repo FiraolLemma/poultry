@@ -12,6 +12,8 @@ class Item(models.Model):
     
     def __str__(self):
         return self.name
+    class Meta:
+        db_table = 'items_item'
 
 class SubImage(models.Model):
     item = models.ForeignKey(Item, related_name='sub_images', on_delete=models.CASCADE)
