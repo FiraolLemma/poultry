@@ -146,22 +146,18 @@ cloudinary.config(
     secure=True
 )
 
-# Determine environment
-IS_RAILWAY = os.getenv("RAILWAY_ENVIRONMENT") == "production"
-IS_LOCAL = not IS_RAILWAY
 
-# Database configuration
-if IS_RAILWAY:
+if os.environ.get('RAILWAY_ENVIRONMENT', '').lower() == 'production':
     DATABASES = {
         'default': dj_database_url.config(
-            default=os.getenv("DATABASE_URL"),
-            conn_max_age=600
+            conn_max_age=600,
+            conn_health_checks=True,
         )
     }
 else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         }
     }
