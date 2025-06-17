@@ -1,4 +1,5 @@
 import os
+from urllib.parse import urlparse
 from pathlib import Path
 from django.utils.translation import gettext_lazy as _
 import cloudinary
@@ -147,13 +148,18 @@ cloudinary.config(
 )
 
 
+
+# Use public URL when available, fallback to internal
+DATABASE_URL = os.getenv('DATABASE_PUBLIC_URL') or os.getenv('DATABASE_URL')
+
+db_info = urlparse(DATABASE_URL)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('PGDATABASE'),
-        'USER': os.getenv('PGUSER'),
-        'PASSWORD': os.getenv('PGPASSWORD'),
-        'HOST': os.getenv('PGHOST'), 
-        'PORT': os.getenv('PGPORT'),
+        'NAME': db_info.path[1:],  # removes the leading '/'
+        'USER': db_info.username,
+        'PASSWORD': db_info.password,
+        'HOST': db_info.hostname,
+        'PORT': db_info.port,
     }
 }
