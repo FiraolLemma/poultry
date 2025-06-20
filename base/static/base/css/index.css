@@ -5,7 +5,6 @@
     --darker-gray: #1b1b1b; 
     --pure-white: #ffffff;
 }
-
 body {
     font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
     line-height: 1.6;
@@ -18,8 +17,9 @@ body {
 .main-container {
     max-width: 1200px;
     padding: 0;
-    margin: 0 auto;
+    margin:0 auto;
 }
+
 
 .language-container select {
     border: 1px solid var(--medium-gray);
@@ -40,6 +40,9 @@ body {
     border-radius: 4px;
     background-position: center;
     overflow: hidden;
+    background-repeat: no-repeat;
+    background-size: cover;
+    box-shadow: 1 8px 15px rgba(0, 0, 0, 0.699);
 }
 
 .main-hero-section h1 {
@@ -177,14 +180,13 @@ body {
 
 .companies-we-work-with {
     padding: 40px 0;
-    background-color: #f9f9f9;
     text-align: center;
 }
 
 .companies-title {
     font-size: 2rem;
     margin-bottom: 30px;
-    color: #333;
+    color: #000000;
     position: relative;
     display: inline-block;
 }
@@ -296,3 +298,34 @@ body {
 .company-logo:nth-child(3) {
     animation-delay: 0.3s;
 }
+
+
+
+
+.background-slideshow {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    animation: slideShow 20s infinite;
+    opacity: 0.85;
+}
+.companies-content {
+    position: relative;
+    text-align: center;
+}
+@keyframes slideShow {
+    0%, 100% {
+        background-image: url("/static/base/images/ethio.jpg");
+    }
+    25% {
+        background-image: url("/static/base/images/ethio 1.png");
+    }
+    50% {
+        background-image: url("/static/base/images/ethio 2.png");
+    }
+    75% {
+        background-image: url("/static/base/images/ethio 3.png");
+    }
+}
+
