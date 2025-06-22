@@ -2,7 +2,7 @@
 {% load i18n %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head> 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="{% trans 'Ethiopian poultry marketplace - Buy and sell poultry products in Ethiopia' %}">
@@ -34,7 +34,7 @@
                             <span id="navbarUnread" class="unread-badge" aria-hidden="true">0</span>
                         </a>
                     </li>
-                    <li><a href ="{% url 'companies:index' %}" class="nav-link" > companies </a></li>
+                    <li><a href ="{% url 'companies:index' %}" class="nav-link" > {% trans "companies" %} </a></li>
                     <li><a class="nav-link" href="{% url 'contact:contact_us' %}">{% trans "Contact Us" %}</a></li>
                     <li><a class="nav-link" href="/about/">{% trans "About Us" %}</a></li>
                     <li class="language-container">
@@ -152,9 +152,7 @@
     </footer>
     <script src="{% static 'base/js/base.js' %}" defer></script>
     <script>
-        window.USER_ID = "{{ request.user.id|default:'0' }}";
-        window.CSRF_TOKEN = "{{ csrf_token }}";
-        window.STATIC_URL = "{% static '' %}";
+        const UNREAD_COUNT_API_URL = "{% url 'conversation:unread_count_api' %}";
     </script>
     {% block js %}{% endblock %}
 </body>

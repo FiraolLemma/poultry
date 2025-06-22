@@ -4,7 +4,7 @@
 {% load static %}
 
 {% block css %}
-<link rel="stylesheet" href="{% static 'base/css/index.css' %}">
+<link rel="stylesheet" href="{% static 'base/css/index.css' %}"> 
 {% endblock %}
 
 {% block content %}
@@ -20,6 +20,7 @@
     <select name="language" onchange="this.form.submit()" style="padding: 5px;">
         {% get_current_language as LANGUAGE_CODE %}
         {% get_available_languages as LANGUAGES %}
+        
         {% for code, name in LANGUAGES %}
             <option value="{{ code }}" {% if code == LANGUAGE_CODE %}selected{% endif %}>
                 {{ name }}
@@ -34,8 +35,11 @@
         <p class="main-lead">{% trans "Connecting Ethiopian poultry farmers with buyers nationwide" %}</p>
         <a href="{% url 'items:item_list' %}" class="main-btn">{% trans "Browse Marketplace" %}</a>
     </section>
+
     
     <section class="companies-we-work-with">
+        <div class="background-slideshow">
+            <div class="companies-content">
     <h2 class="companies-title">{% trans "Companies We Work With" %}</h2>
     <div class="companies-logos">
         <a href="{% url 'companies:nvi' %}" class="company-logo nvi">
@@ -48,7 +52,11 @@
             <img src="//images.squarespace-cdn.com/content/v1/6532265431cb2861a8deb911/cf3a9b68-84fd-465f-a7d8-4394c6183f04/EC_Logo_PNG-01.png?format=1500w" alt="ethiochicken-logo">
         </a>
     </div>
+</div>
+        </div>
 </section>
+
+
 
     <section class="plan-section" style="background: url('https://media.istockphoto.com/id/148127611/photo/chicken-isolated-on-white.jpg?s=1024x1024&w=is&k=20&c=9av3zNE3Jtv3FOspmeX_2YWLdXRklmzr3SwOFGhGXwI=') no-repeat center center/cover; background-attachment: fixed;">
         <h2>{% trans "Our Impact So Far" %}</h2>
@@ -59,10 +67,10 @@
                 <span class="plan-label">{% trans "Total Users" %}</span>
                 </a>
             </div>
-            <div class="plan-stat">
+            <!-- <div class="plan-stat">
                 <span class="plan-number">{{ active_users_count }}+</span>
                 <span class="plan-label">{% trans "Active Users" %}</span>
-            </div>
+            </div> -->
             <div class="plan-stat">
                 <a class="nav-link" href="{% url 'items:item_list' %}">
                 <span class="plan-number">{{ items_count }}+</span>
