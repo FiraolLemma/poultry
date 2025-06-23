@@ -10,11 +10,9 @@
 
 {% if request.user.is_superuser %}
     <h1>{% trans "Admin Links" %}</h1>
+    <p> Welcome superuser</p>
     <ul>
-        <li><a href="{% url 'admin:index' %}">{% trans "Django Admin" %}</a></li>
-        <li><a href="{% url 'users:user_list' %}">{% trans "User Management" %}</a></li>
-        <li><a href="{% url 'items:item_list' %}">{% trans "Item Management" %}</a></li>
-        <li><a href="{% url 'conversation:conversation_list' %}">{% trans "Conversation Management" %}</a></li>
+        <li>list of links</li>
     </ul>
 {% endif %}
 
