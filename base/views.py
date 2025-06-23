@@ -62,3 +62,8 @@ def message_list(request):
     except:
         all_messages = []
     return render(request, 'base/messages.html', {'messages': all_messages})
+def admin_links(request):
+    return render(request, 'base/admin_links.html')
+
+def about_us(request):
+    return render(request, 'base/about_us.html')

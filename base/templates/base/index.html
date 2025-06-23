@@ -62,11 +62,12 @@
         <h2>{% trans "Our Impact So Far" %}</h2>
         <div class="plan-stats" style="background: url('https://media.istockphoto.com/id/2150866881/photo/happy-free-range-chickens-enjoying-nature-in-the-lush-grass-in-the-evening-sun.jpg?s=1024x1024&w=is&k=20&c=GPu5-d41vQS5uJCiTWwHcEphbHIhbuiCmtJ7pwpTFLc=') no-repeat center center/cover; background-attachment: fixed;">
             <div class="plan-stat">
-                <a class="profile" href="{% url 'users:profile' %}">
+                <a class="profile" href="{% url 'users:user_list' %}">
                 <span class="plan-number">{{ users_count }}+</span>
                 <span class="plan-label">{% trans "Total Users" %}</span>
                 </a>
             </div>
+            
             <!-- <div class="plan-stat">
                 <span class="plan-number">{{ active_users_count }}+</span>
                 <span class="plan-label">{% trans "Active Users" %}</span>
@@ -102,6 +103,13 @@
         <h2>{% trans "Transparent Markets = Stronger Farmers" %}</h2>
         <p>{% trans "Rumors of 'shortages' hurt small farms. Truth: Ethiopia produces 300M+ eggs/year—enough for all! We expose manipulation and highlight REAL data." %}</p>
     </section>
+    {% if request.user.is_superuser %}
+    <section class="for-admins-only">
+        <h2>{% trans "For Admins Only" %}</h2>
+        <p>{% trans "This section is only for superusers" %}</p>
+        <a class="admin-action" href="{% url 'base:admin_links' %}">{% trans "Admin Action" %}</a>
+    </section>
+    {% endif %}
 
 </main>
 {% endblock %}

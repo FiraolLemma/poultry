@@ -149,14 +149,14 @@ cloudinary.config(
 
 
 
-# Use public URL when available, fallback to internal
+# database
 DATABASE_URL = os.getenv('DATABASE_PUBLIC_URL') or os.getenv('DATABASE_URL')
 
 db_info = urlparse(DATABASE_URL)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': db_info.path[1:],  # removes the leading '/'
+        'NAME': db_info.path[1:],
         'USER': db_info.username,
         'PASSWORD': db_info.password,
         'HOST': db_info.hostname,
