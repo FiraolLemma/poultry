@@ -78,7 +78,7 @@
     </div>
     {% endif %}
     
-    <!-- Edit and delete buttons for owner/admin {% if request.user.is_authenticated / created_by and request.user.is_superuser %}-->
+    <!-- Edit and delete buttons for owner/admin iff request . user.is_authenticated / created_by and request.user . is_superuser -->
     {% if request.user.is_authenticated and request.user.is_superuser %}
     <div class="edit-delete-buttons">
         <a href="{% url 'items:item_edit' item.id %}" class="edit-btn">
