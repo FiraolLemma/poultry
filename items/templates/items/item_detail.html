@@ -4,7 +4,6 @@
 
 {% block css %}
 <link rel="stylesheet" href="{% static 'items/css/item_detail.css' %}">
-<link rel="stylesheet" href="{% static 'css/lightbox.min.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -35,7 +34,12 @@
         {% endif %}
     </div>
 
-    <!-- Like and share buttons -->
+    <h1 class="item-title">{{ item.name }}</h1>
+    
+    <div class="main-image-container">
+        <img src="{{ item.main_image.url }}" alt="{{ item.name }}" class="main-image" data-lightbox="main-image">
+        
+        <!-- Like and share buttons -->
     <div class="interaction-buttons">
         <button onclick="likeItem({{ item.id }})" class="interaction-btn like-btn">
             <i class="fas fa-thumbs-up"></i> 
@@ -46,11 +50,7 @@
             <span class="interaction-count" id="share-count">{{ item.share_count }}</span>
         </button>
     </div>
-
-    <h1 class="item-title">{{ item.name }}</h1>
     
-    <div class="main-image-container">
-        <img src="{{ item.main_image.url }}" alt="{{ item.name }}" class="main-image" data-lightbox="main-image">
         <div class="price-badge">ETB {{ item.price }}</div>
     </div>
     
@@ -78,9 +78,8 @@
     </div>
     {% endif %}
     
-    <!-- Edit and delete buttons for owner/admin -->
-    {% if request.user.is_authenticated %}
-    {% if request.user == item.created_by or request.user.is_superuser %}
+    <!-- Edit and delete buttons for owner/admin {% if request.user.is_authenticated / created_by and request.user.is_superuser %}-->
+    {% if request.user.is_authenticated and request.user.is_superuser %}
     <div class="edit-delete-buttons">
         <a href="{% url 'items:item_edit' item.id %}" class="edit-btn">
             <i class="fas fa-edit"></i> {% trans "Edit" %}
@@ -93,11 +92,9 @@
         </form>
     </div>
     {% endif %}
-    {% endif %}
 </div>
 {% endblock %}
 
 {% block js %}
-<script src="{% static 'js/lightbox-plus-jquery.min.js' %}"></script>
 <script src="{% static 'items/js/item_detail.js' %}"></script>
 {% endblock %}
